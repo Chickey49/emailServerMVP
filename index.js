@@ -15,8 +15,8 @@ router.post('/send', (req, res, next) => {
     var content = `name: ${name} \n phone: ${phone} \n email: ${email} \n message: ${message} `
 
     var mail = {
-        from: 'camslens@gmail.com',
-        to: 'camslens@gmail.com',  // Change to email address that you want to receive messages on
+        from: process.env.MAIL_FROM,
+        to: process.env.MAIL_FROM,  // Change to email address that you want to receive messages on
         subject: 'Contact us form',        
         text: content
     }
