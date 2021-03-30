@@ -1,9 +1,6 @@
-
-const creds = require('./config');
 var nodemailer = require('nodemailer');
 
-function send(mail) {
-   
+function send(mail) {   
 
     var transport = {
         // host: 'u21044794.wl045.sendgrid.net', // Don’t forget to replace with the SMTP host of your provider
@@ -40,3 +37,5 @@ function send(mail) {
         }
     });
 })
+
+module.exports.send = send;
