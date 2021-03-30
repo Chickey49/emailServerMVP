@@ -22,7 +22,7 @@ router.post('/send', (req, res, next) => {
     }
 
     console.log("Content: " + JSON.stringify(mail));
-    res.send(sender.send(mail));
+    res.status(200).send(sender.send(mail));
     
 })
 
