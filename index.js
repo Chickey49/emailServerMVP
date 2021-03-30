@@ -1,20 +1,12 @@
 var express = require('express');
 var router = express.Router();
-var nodemailer = require('nodemailer');
+
 var cors = require('cors');
 const creds = require('./config');
-
-var transport = {
-    host: 'u21044794.wl045.sendgrid.net', // Don’t forget to replace with the SMTP host of your provider
-    port: 25,
-    auth: {
-        user: creds.USER,
-        pass: creds.PASS
-    }
-}
+var sender = require('./sendmailgun.js');
 
 
-router.post('/', (req, res, next) => {
+router.post('/send', (req, res, next) => {
     var name = req.body.name
     var phone = req.body.phone
     var email = req.body.email
@@ -24,37 +16,18 @@ router.post('/', (req, res, next) => {
     var mail = {
         from: name,
         to: 'camslens@gmail.com',  // Change to email address that you want to receive messages on
-        subject: 'Request from contact us form',
+        subject: 'Contact us form',
+        port: 25,
         text: content
     }
 
-    var transporter = nodemailer.createTransport(transport)
-
-    transporter.verify((error, success) => {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Server is ready to take messages');
-        }
-    });
-
-
-
-    transporter.sendMail(mail, (err, data) => {
-        if (err) {
-            res.json({
-                status: 'fail'
-            })
-        } else {
-            res.json({
-                status: 'success'
-            })
-        }
-    })
+    console.log("Content: " + JSON.stringify(mail));
+    sender.send(mail);
+    
 })
 
-const app = express()
-app.use(cors())
-app.use(express.json())
-app.use('/', router)
-app.listen(3002)
+const app = express();
+app.use(cors());
+app.use(express.json());
+app.use('/', router);
+app.listen(3002);
