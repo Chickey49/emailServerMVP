@@ -10,11 +10,13 @@ var Mailgun = require('mailgun-js');
 function send(mail) {
 
     //We pass the api_key and domain to the wrapper, or it won't be able to identify + send emails
-    var mailgun = new Mailgun(
-        {
-            apiKey: process.env.MAILGUN_API_KEY, 
-            domain: process.env.MAILGUN_DOMAIN
-        });
+    var mailconfig = {
+        apiKey: process.env.MAILGUN_API_KEY, 
+        domain: process.env.MAILGUN_DOMAIN
+    };
+
+    console.log(JSON.stringify(mailconfig));
+    var mailgun = new Mailgun(mailconfig);
 
     var data = {
         //Specify email data
